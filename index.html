@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pathing Demo</title>
+    <style>
+        body{
+            background-color: green;
+        }
+        #goal {
+            height: 500px;
+            width: 1000px;
+            top: 0px;
+            left: 0px;
+        }
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+
+        }
+        #ball1 {
+            position:   relative;
+            z-index:    3;
+        }
+        #ball2 {
+            position:   relative;
+            z-index:    3;
+        }
+        #ball3 {
+            position:   relative;
+            z-index:    3;
+        }
+        #button1 {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 150px;
+            height: 50px;
+            color: red;
+            font-size: large;
+        }
+        
+    </style>
+    <script>
+        var timer1;
+        var timer2;
+        var timer3;
+        var cycle1 = 0;
+        var cycle2 = 0;
+        var cycle3 = 0;
+        var rotation = 0
+        var ball1TopArray = new Array();
+        var ball1LeftArray = new Array();
+        var ball2TopArray = new Array();
+        var ball2LeftArray = new Array();
+        var ball3TopArray = new Array();
+        var ball3LeftArray = new Array();
+        var opacity = 1.00;
+        
+        function setArrays() {
+            var startValTop = 0;
+            var startValLeft = 0;
+            var changeTop = Math.random() * (20 - 2) + 2;
+            var changeLeft = Math.random() * (20 - 2) + 2;
+            for (i = 0; i < 100; i++)
+            {
+                ball1TopArray[i] = startValTop;
+                ball1LeftArray[i] = startValLeft;
+                startValTop = startValTop - changeTop;
+                startValLeft = startValLeft + changeLeft;
+            }
+
+            startValTop = 0;
+            startValLeft = 0;
+            changeTop = Math.random() * (7 - 3) + 3;
+            changeLeft = Math.random() * (7 - 3) + 3;
+            for (i = 0; i < 100; i++)
+            {
+                ball2TopArray[i] = startValTop;
+                ball2LeftArray[i] = startValLeft;
+                startValTop = startValTop - changeTop;
+                startValLeft = startValLeft + changeLeft;
+            }
+            startValTop = 0;
+            startValLeft = 0;
+            changeTop = Math.random() * (7 - 3) + 3;
+            changeLeft = Math.random() * (7 - 3) + 3;
+            for (i = 0; i < 100; i++)
+            {
+                ball3TopArray[i] = startValTop;
+                ball3LeftArray[i] = startValLeft;
+                startValTop = startValTop - changeTop;
+                startValLeft = startValLeft + changeLeft;
+            }
+            //console.log(ball3TopArray);
+            //console.log(ball3LeftArray);
+        }
+        
+        function moveBall(ball, top, left) {
+            document.getElementById(ball).style.top = top + "px";
+		    document.getElementById(ball).style.left = left + "px";
+            //console.log(ball + " top val: " + document.getElementById(ball).style.top);
+            //console.log(ball + " left val: " + document.getElementById(ball).style.left);
+
+        }
+        function runBall1() {
+            
+            if (cycle1 < 100)
+            {
+                rotation += 60;
+                document.getElementById("ball1").style.transform = "rotate(" + rotation + "deg)";
+                moveBall("ball1", ball1TopArray[cycle1], ball1LeftArray[cycle1]);
+            }
+            else 
+            {
+                clearInterval(timer1);
+            }
+            cycle1 = cycle1 + 1;
+        }
+        function runBall2() {
+            if (cycle2 < 100)
+            {
+                var height;
+                var width;
+                height = document.getElementById("ball2").height;
+                width = document.getElementById("ball2").width;
+                height = height - 1.5;
+                width = width - 1.5;
+                document.getElementById("ball2").height = height;
+                document.getElementById("ball2").width = width;
+                moveBall("ball2", ball2TopArray[cycle2], ball2LeftArray[cycle2]);
+            }
+            else 
+            {
+                clearInterval(timer2);
+            }
+            cycle2 = cycle2 + 1;
+        }
+        function runBall3() {
+            if (cycle3 < 100)
+            {
+                opacity = opacity - 0.005;
+                document.getElementById("ball3").style.opacity = opacity;
+                moveBall("ball3", ball3TopArray[cycle3], ball3LeftArray[cycle3]);
+            }
+            else 
+            {
+                clearInterval(timer3);
+            }
+            cycle3 = cycle3 + 1;
+        }
+        function shoot() {
+            timer1 = setInterval(runBall1, 50);
+            timer2 = setInterval(runBall2, 50);
+            timer3 = setInterval(runBall3, 50);
+        }
+        
+    </script>
+</head>
+<body onload="setArrays()">
+    <div>
+        <img src="images/goal.png" id="goal" alt="soccer goal" class="center">
+        <img src="images/ball1.png" id="ball1" alt="soccer ball">
+        <img src="images/ball1.png" id="ball2" alt="soccer ball">
+        <img src="images/ball1.png" id="ball3" alt="soccer ball">
+    </div>
+    <div id="buttonDiv">
+        <input type="button" id="button1" value="Shoot!" onclick="shoot()" />
+    </div>
+        
+</body>
+</html>
